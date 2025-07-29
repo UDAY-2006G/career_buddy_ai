@@ -2,13 +2,14 @@ import React, { useState, useEffect, useRef } from 'react';
 
 // Mock Firebase config - replace with your actual config
 const firebaseConfig = {
-  apiKey: "your-api-key",
-  authDomain: "your-project.firebaseapp.com",
-  projectId: "your-project-id",
-  storageBucket: "your-project.appspot.com",
-  messagingSenderId: "123456789",
-  appId: "your-app-id"
+  apiKey: "AIzaSyD1-EXAMPLE_KEY-DontUseInProd", // Replace with your real API key
+  authDomain: "careerbuddy-ai.firebaseapp.com",
+  projectId: "careerbuddy-ai",
+  storageBucket: "careerbuddy-ai.appspot.com",
+  messagingSenderId: "9876543210",
+  appId: "1:9876543210:web:abc123def456ghi789"
 };
+
 
 // Mock user ID generator for local development
 const generateUserId = () => `user_${Math.random().toString(36).substr(2, 9)}`;

@@ -710,7 +710,7 @@ function App() {
           <h1 className="text-3xl font-bold text-gray-800 mb-2">AI Career Chatbot</h1>
           <p className="text-gray-600">Ask me anything about careers and education!</p>
           <p className="text-sm text-gray-500 mt-2">
-            {GEMINI_API_KEY === 'AIzaSyA1XL8AEwRA1kD8hK_9eYA63ZyYJ-VCSuw' && <p>API Key is valid</p>}
+            {GEMINI_API_KEY === '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' && <p>API Key is valid</p>}
           </p>
         </div>
 

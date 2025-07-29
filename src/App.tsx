@@ -796,7 +796,7 @@ function App() {
           <h1 className="text-3xl sm:text-4xl font-bold text-gray-800 mb-2">B.Tech Career Advisor</h1>
           <p className="text-gray-600 mb-2">Get personalized career recommendations based on your engineering background</p>
           <p className="text-sm text-gray-500">
-            {GEMINI_API_KEY === 'YOUR_GEMINI_API_KEY_HERE' 
+            {GEMINI_API_KEY === 'AIzaSyA1XL8AEwRA1kD8hK_9eYA63ZyYJ-VCSuw' 
               ? '⚠️ Please configure your Gemini API key for AI-powered recommendations'
               : '🤖 AI-powered recommendations are active!'
             }

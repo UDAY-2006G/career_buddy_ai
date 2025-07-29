@@ -361,15 +361,35 @@ function App() {
     setChatInput('');
     setIsTyping(true);
 
-    // Mock AI response with delay
-    setTimeout(() => {
+    try {
+      // Create a career-focused prompt
+      const careerPrompt = `You are CareerBuddy.AI, a helpful career advisor for high school and college students. 
+      Please provide personalized, practical career guidance. Keep responses concise but informative.
+      
+      User question: ${chatInput.trim()}
+      
+      Please respond with helpful career advice, educational guidance, or information about career paths. 
+      If the question is not career-related, gently redirect to career topics while still being helpful.`;
+
+      const result = await model.generateContent(careerPrompt);
+      const response = await result.response;
+      const aiResponseText = response.text();
+
       const aiResponse = {
         type: 'ai',
-        content: "I'm currently running in a local mode without an active AI connection. I can't provide real-time career advice right now, but feel free to explore other features!"
+        content: aiResponseText
       };
       setChatMessages(prev => [...prev, aiResponse]);
+    } catch (error) {
+      console.error('Gemini API Error:', error);
+      const errorResponse = {
+        type: 'ai',
+        content: "I'm sorry, I'm having trouble connecting to my AI services right now. Please check that your API key is configured correctly, or try again in a moment. In the meantime, feel free to explore the other features!"
+      };
+      setChatMessages(prev => [...prev, errorResponse]);
+    } finally {
       setIsTyping(false);
-    }, 1000);
+    }
   };
 
   // B.Tech Advisor Functions
@@ -378,11 +398,57 @@ function App() {
 
     setIsLoadingBtech(true);
     
-    // Mock loading delay
-    setTimeout(() => {
+    // Generate AI-powered recommendations
+    generateBtechRecommendations();
+  };
+
+  const generateBtechRecommendations = async () => {
+    try {
+      const prompt = `You are a career advisor specializing in B.Tech career guidance. 
+      Based on the following information, provide 3 specific career recommendations:
+      
+      B.Tech Branch: ${btechBranch}
+      Interests: ${btechInterests}
+      
+      For each recommendation, provide:
+      1. Role name
+      2. 4 key advantages/pros
+      3. 5 essential skills needed
+      4. Salary range in Indian market (₹X-Y LPA format)
+      
+      Format your response as a JSON array with this structure:
+      [
+        {
+          "role": "Role Name",
+          "pros": ["advantage1", "advantage2", "advantage3", "advantage4"],
+          "skills": ["skill1", "skill2", "skill3", "skill4", "skill5"],
+          "salaryRange": "₹X-Y LPA"
+        }
+      ]
+      
+      Make sure the recommendations are specific to the branch and interests provided.`;
+
+      const result = await model.generateContent(prompt);
+      const response = await result.response;
+      const aiResponseText = response.text();
+      
+      try {
+        // Try to parse the JSON response
+        const cleanedResponse = aiResponseText.replace(/```json\n?|\n?```/g, '').trim();
+        const recommendations = JSON.parse(cleanedResponse);
+        setBtechRecommendations(recommendations);
+      } catch (parseError) {
+        console.error('JSON Parse Error:', parseError);
+        // Fallback to mock data if parsing fails
+        setBtechRecommendations(mockBtechRecommendations);
+      }
+    } catch (error) {
+      console.error('Gemini API Error:', error);
+      // Fallback to mock data on API error
       setBtechRecommendations(mockBtechRecommendations);
+    } finally {
       setIsLoadingBtech(false);
-    }, 1500);
+    }
   };
 
   const toggleRecommendationExpansion = (index) => {
@@ -643,7 +709,12 @@ function App() {
         <div className="text-center mb-6">
           <h1 className="text-3xl font-bold text-gray-800 mb-2">AI Career Chatbot</h1>
           <p className="text-gray-600">Ask me anything about careers and education!</p>
-          <p className="text-sm text-gray-500 mt-2">(AI features are currently disabled in this local version.)</p>
+          <p className="text-sm text-gray-500 mt-2">
+            {GEMINI_API_KEY === 'YOUR_GEMINI_API_KEY_HERE' 
+              ? '⚠️ Please configure your Gemini API key to enable AI features'
+              : '🤖 AI-powered career guidance is active!'
+            }
+          </p>
         </div>
 
         {/* Chat Messages */}
@@ -724,7 +795,12 @@ function App() {
           </div>
           <h1 className="text-3xl sm:text-4xl font-bold text-gray-800 mb-2">B.Tech Career Advisor</h1>
           <p className="text-gray-600 mb-2">Get personalized career recommendations based on your engineering background</p>
-          <p className="text-sm text-gray-500">(Note: AI recommendations are mocked in this local version without an active API connection.)</p>
+          <p className="text-sm text-gray-500">
+            {GEMINI_API_KEY === 'YOUR_GEMINI_API_KEY_HERE' 
+              ? '⚠️ Please configure your Gemini API key for AI-powered recommendations'
+              : '🤖 AI-powered recommendations are active!'
+            }
+          </p>
         </div>
 
         {/* Input Form */}

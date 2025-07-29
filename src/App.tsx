@@ -710,7 +710,7 @@ function App() {
           <h1 className="text-3xl font-bold text-gray-800 mb-2">AI Career Chatbot</h1>
           <p className="text-gray-600">Ask me anything about careers and education!</p>
           <p className="text-sm text-gray-500 mt-2">
-            {GEMINI_API_KEY === 'YOUR_GEMINI_API_KEY_HERE' 
+            {GEMINI_API_KEY === 'AIzaSyA1XL8AEwRA1kD8hK_9eYA63ZyYJ-VCSuw'
               ? '⚠️ Please configure your Gemini API key to enable AI features'
               : '🤖 AI-powered career guidance is active!'
             }
